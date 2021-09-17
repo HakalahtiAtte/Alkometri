@@ -2,14 +2,16 @@ import {useState} from 'react';
 import './App.css';
 
 function App() {
-  const [weight, setWeight] = useState(89);
-  const [bottles, setBottles] = useState(3);
+  const [weight, setWeight] = useState(0);
+  const [bottles, setBottles] = useState(1);
   const [time, setTime] = useState(1);
   const [gender, setGender] = useState('male');
   const [result, setResult] = useState(0);
 
   function handleSubmit(e) {
     e.preventDefault();
+    
+    let negative = 0;
     
     let litres = (bottles * 0.33);
 
@@ -19,9 +21,11 @@ function App() {
 
     let left = grams - (burning * time);
 
+    if (left < 0) {
+      setResult(negative)
+    }
     
-    
-    if (gender === 'male') {
+    else if (gender === 'male') {
 
       setResult(left / (weight * 0.7));
     }
@@ -29,6 +33,8 @@ function App() {
     
       setResult(left / (weight * 0.6));
     }
+     
+    
     
   }
   
@@ -56,7 +62,7 @@ function App() {
         <input type="radio" name="gender" value="female" onChange ={e => setGender(e.target.value)} /><label>Female</label>
       </div>
       <div>
-      <output>{result.toFixed(2)}</output>
+      <output>{result.toFixed(1)}</output>
       </div>
       <button>Calculate</button>
     </form>
